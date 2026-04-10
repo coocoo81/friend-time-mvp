@@ -1,16 +1,14 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 
 type ShareLinkActionsProps = {
   shareUrl: string;
-  title: string;
 };
 
-export function ShareLinkActions({ shareUrl, title }: ShareLinkActionsProps) {
+export function ShareLinkActions({ shareUrl }: ShareLinkActionsProps) {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
 
   async function copyLink() {
     setError(null);
@@ -24,44 +22,16 @@ export function ShareLinkActions({ shareUrl, title }: ShareLinkActionsProps) {
     }
   }
 
-  async function shareLink() {
-    if (!navigator.share) {
-      await copyLink();
-      return;
-    }
-
-    startTransition(async () => {
-      setError(null);
-
-      try {
-        await navigator.share({
-          title,
-          text: `来一起选时间：${title}`,
-          url: shareUrl
-        });
-      } catch {
-        // User cancelled share dialog; no need to show an error.
-      }
-    });
-  }
-
   return (
-    <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+    <div className="mt-4 flex flex-col gap-3">
       <button
         type="button"
         onClick={copyLink}
-        className="rounded-full bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--primary-deep)]"
+        className="w-full rounded-2xl bg-[var(--primary)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--primary-deep)]"
       >
         {copied ? "已复制链接" : "复制分享链接"}
       </button>
-      <button
-        type="button"
-        onClick={shareLink}
-        disabled={isPending}
-        className="rounded-full border border-[var(--line)] px-4 py-3 text-sm font-medium text-[var(--foreground)] disabled:opacity-60"
-      >
-        手机系统分享
-      </button>
+      {copied ? <p className="text-sm text-emerald-700">链接已复制，发到群里就可以了。</p> : null}
       {error ? <p className="text-sm text-red-500">{error}</p> : null}
     </div>
   );

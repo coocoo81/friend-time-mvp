@@ -41,12 +41,16 @@ export default async function EventPage({ params }: EventPageProps) {
                 {event.description?.trim() || "发起人还没有补充活动说明。"}
               </p>
               <div className="mt-5 rounded-3xl border border-[var(--line)] bg-white/80 p-4 text-sm">
-                <p className="font-semibold">分享链接</p>
-                <p className="mt-2 break-all text-[var(--muted)]">{shareUrl}</p>
-                <p className="mt-2 text-xs text-[var(--muted)]">
-                  本地开发时可直接复制当前页面地址发给朋友测试。
-                </p>
-                <ShareLinkActions shareUrl={shareUrl} title={event.title} />
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="font-semibold">邀请朋友一起选时间</p>
+                    <p className="mt-1 text-xs text-[var(--muted)]">把下面这个链接发给朋友，打开后即可填写。</p>
+                  </div>
+                </div>
+                <div className="mt-3 rounded-2xl border border-[var(--line)] bg-[var(--accent)]/40 px-4 py-3">
+                  <p className="break-all text-sm leading-6 text-[var(--foreground)]">{shareUrl}</p>
+                </div>
+                <ShareLinkActions shareUrl={shareUrl} />
               </div>
             </div>
 
