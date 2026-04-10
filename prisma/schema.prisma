@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id               Int            @id @default(autoincrement())
+  title            String
+  description      String?
+  startDate        DateTime
+  endDate          DateTime
+  shareToken       String         @unique
+  finalizedDate    DateTime?
+  finalizedSlotKey String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  participants     Participant[]
+  availabilities   Availability[]
+}
+
+model Participant {
+  id             Int            @id @default(autoincrement())
+  eventId        Int
+  nickname       String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  event          Event          @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  availabilities Availability[]
+
+  @@unique([eventId, nickname])
+}
+
+model Availability {
+  id            Int         @id @default(autoincrement())
+  eventId       Int
+  participantId Int
+  date          DateTime
+  slotKey       String
+  isAvailable   Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  event         Event       @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, participantId, date, slotKey])
+  @@index([eventId, date, slotKey])
+}
