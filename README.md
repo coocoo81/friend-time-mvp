@@ -1,6 +1,6 @@
 # 约时间吧 MVP
 
-一个基于 Next.js App Router、TypeScript、Tailwind CSS、Prisma 和 SQLite 的轻量聚会约时间工具。
+一个基于 Next.js App Router、TypeScript、Tailwind CSS、Prisma 和 PostgreSQL 的轻量聚会约时间工具。
 
 ## 功能概览
 
@@ -17,7 +17,7 @@
 - TypeScript
 - Tailwind CSS v4
 - Prisma
-- SQLite
+- PostgreSQL
 - Zod
 - date-fns
 
@@ -32,7 +32,9 @@ npm install
 
 3. 环境变量
 
-项目已自带本地开发可用的 `.env`，默认指向 SQLite 文件数据库。
+项目在线上推荐使用 PostgreSQL（例如 Neon）。
+
+本地开发时请自己准备一个 PostgreSQL 数据库，并把连接串写进 `.env`。
 
 如果你想手动重建配置，也可以执行：
 
@@ -40,7 +42,7 @@ npm install
 cp .env.example .env
 ```
 
-4. 生成 Prisma Client 并创建 SQLite 数据库
+4. 生成 Prisma Client 并同步数据库结构
 
 ```bash
 npm run db:generate
@@ -67,7 +69,7 @@ http://localhost:3000
 
 ## 数据库说明
 
-SQLite 数据库默认位于 `prisma/dev.db`。
+默认使用 PostgreSQL，推荐线上搭配 Vercel + Neon。
 
 如需查看数据：
 
