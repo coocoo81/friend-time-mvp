@@ -116,12 +116,7 @@ export function CreateEventForm() {
       </div>
 
       <div className="mt-6 rounded-3xl border border-[var(--line)] bg-white/80 p-4">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm font-semibold">默认固定时间段</p>
-          <span className="inline-flex w-fit rounded-full bg-[var(--accent)] px-3 py-1 text-xs font-medium text-[var(--primary-deep)]">
-            optional · 无需手动选择
-          </span>
-        </div>
+        <p className="text-sm font-semibold">默认固定时间段</p>
         <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
           当前 MVP 会默认启用下面 3 个时段。创建活动时不用额外勾选，朋友填写时再按日期和时段选择即可。
         </p>
