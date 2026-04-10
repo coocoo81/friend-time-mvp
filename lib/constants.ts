@@ -20,5 +20,3 @@ export const SLOT_CONFIG = [
 ] as const;
 
 export type SlotKey = (typeof SLOT_CONFIG)[number]["key"];
-
-export const SLOT_KEYS = SLOT_CONFIG.map((slot) => slot.key) as SlotKey[];

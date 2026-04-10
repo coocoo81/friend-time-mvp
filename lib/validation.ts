@@ -1,11 +1,16 @@
 import { z } from "zod";
-import { SLOT_KEYS } from "@/lib/constants";
+import { SLOT_CONFIG } from "@/lib/constants";
 import { parseDateOnly } from "@/lib/date";
 
 const dateString = z
   .string()
   .min(1, "请选择日期")
   .refine((value) => !!parseDateOnly(value), "日期格式不正确");
+
+const slotKeySchema = z.custom<(typeof SLOT_CONFIG)[number]["key"]>(
+  (value) => typeof value === "string" && SLOT_CONFIG.some((slot) => slot.key === value),
+  "时间段不合法"
+);
 
 export const createEventSchema = z
   .object({
@@ -42,7 +47,7 @@ export const submitAvailabilitySchema = z.object({
     .array(
       z.object({
         date: dateString,
-        slotKey: z.enum(SLOT_KEYS, { message: "时间段不合法" })
+        slotKey: slotKeySchema
       })
     )
     .max(400, "选择的时间过多，请缩小活动范围")
@@ -50,5 +55,5 @@ export const submitAvailabilitySchema = z.object({
 
 export const finalizeSelectionSchema = z.object({
   date: dateString,
-  slotKey: z.enum(SLOT_KEYS, { message: "时间段不合法" })
+  slotKey: slotKeySchema
 });
