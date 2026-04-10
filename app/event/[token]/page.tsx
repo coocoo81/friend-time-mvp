@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { AvailabilityForm } from "@/components/availability-form";
 import { ResultBoard } from "@/components/result-board";
+import { ShareLinkActions } from "@/components/share-link-actions";
 import { SiteHeader } from "@/components/site-header";
 import { buildEventViewModel, getEventByToken } from "@/lib/event-service";
 
@@ -45,6 +46,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <p className="mt-2 text-xs text-[var(--muted)]">
                   本地开发时可直接复制当前页面地址发给朋友测试。
                 </p>
+                <ShareLinkActions shareUrl={shareUrl} title={event.title} />
               </div>
             </div>
 
