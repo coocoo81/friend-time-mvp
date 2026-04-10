@@ -46,7 +46,7 @@ export function CreateEventForm() {
         return;
       }
 
-      router.push(`/event/${result.token}`);
+      router.push(`/event/${result.token}?created=1`);
       router.refresh();
     } catch {
       setError("创建活动失败，请稍后再试。");

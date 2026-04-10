@@ -20,6 +20,7 @@ type AvailabilityFormProps = {
   token: string;
   dates: DateOption[];
   existingParticipants: ExistingParticipant[];
+  finalizedLabel?: string | null;
 };
 
 type LoadResponse =
@@ -28,7 +29,7 @@ type LoadResponse =
 
 type SubmitResponse = { ok: true; message: string } | { ok: false; message: string; fieldErrors?: Record<string, string[]> };
 
-export function AvailabilityForm({ token, dates, existingParticipants }: AvailabilityFormProps) {
+export function AvailabilityForm({ token, dates, existingParticipants, finalizedLabel }: AvailabilityFormProps) {
   const router = useRouter();
   const [nickname, setNickname] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
@@ -137,6 +138,12 @@ export function AvailabilityForm({ token, dates, existingParticipants }: Availab
         </p>
       </div>
 
+      {finalizedLabel ? (
+        <div className="mb-4 rounded-2xl border border-amber-200 bg-[var(--all)] px-4 py-3 text-sm text-[var(--foreground)]">
+          当前已暂定时间：<span className="font-semibold">{finalizedLabel}</span>
+        </div>
+      ) : null}
+
       <div className="mb-4">
         <label className="block">
           <span className="mb-2 block text-sm font-medium">你的昵称</span>
@@ -192,6 +199,19 @@ export function AvailabilityForm({ token, dates, existingParticipants }: Availab
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-[var(--line)] bg-white/80 px-4 py-3 text-sm">
+        <span className="text-[var(--muted)]">
+          已选择 <span className="font-semibold text-[var(--foreground)]">{selectedKeys.size}</span> 个时间段
+        </span>
+        <button
+          type="button"
+          onClick={() => setSelectedKeys(new Set())}
+          className="rounded-full border border-[var(--line)] px-3 py-1.5 text-sm font-medium text-[var(--muted)]"
+        >
+          清空选择
+        </button>
       </div>
 
       {notice ? (

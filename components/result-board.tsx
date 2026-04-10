@@ -43,6 +43,7 @@ export function ResultBoard({
 }: ResultBoardProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const primaryBestSlot = bestSlots[0] ?? null;
 
   const groupedByDate = Array.from(
     grid.reduce((map, item) => {
@@ -99,6 +100,32 @@ export function ResultBoard({
             {finalizedSlot.dateLabel} · {finalizedSlot.slotLabel}
           </p>
           <p className="mt-1 text-sm text-[var(--muted)]">{finalizedSlot.slotTime}</p>
+        </div>
+      ) : null}
+
+      {primaryBestSlot ? (
+        <div className="card rounded-[28px] p-5">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium text-[var(--primary-deep)]">当前最推荐的时间</p>
+              <p className="mt-2 text-2xl font-semibold">
+                {primaryBestSlot.dateLabel} · {primaryBestSlot.slotLabel}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+                {primaryBestSlot.isAllAvailable
+                  ? `这是目前所有人都能参加的时间，共 ${primaryBestSlot.availableCount} 人。`
+                  : `这是当前参与人数最多的时间，共 ${primaryBestSlot.availableCount} 人有空。`}
+              </p>
+            </div>
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={() => handleFinalize(primaryBestSlot)}
+              className="shrink-0 rounded-full bg-[var(--foreground)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
+            >
+              直接确认
+            </button>
+          </div>
         </div>
       ) : null}
 
